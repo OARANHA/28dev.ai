@@ -9,13 +9,29 @@ export async function POST(req: NextRequest) {
   let workingDirectory = '/home/user'
 
   try {
+    const body = await req.json()
+
+    // Verificar se body é um objeto válido
+    if (typeof body !== 'object' || body === null) {
+      return NextResponse.json(
+        { error: 'Invalid request body' },
+        { status: 400 }
+      )
+    }
+
     const {
       command,
       sbxId,
       workingDirectory: wd = '/home/user',
       teamID,
       accessToken
-    } = await req.json()
+    } = body as {
+      command: string
+      sbxId: string
+      workingDirectory?: string
+      teamID?: string
+      accessToken?: string
+    }
 
     workingDirectory = wd
 

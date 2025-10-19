@@ -36,18 +36,19 @@ export async function GET(
 
     const data = await response.json()
 
-    // If it's a single file, return the file content
-    if (data.type === 'file') {
+    // Verificar se data é um objeto válido para arquivo
+    if (typeof data === 'object' && data !== null && (data as any).type === 'file') {
+      const fileData = data as any
       return NextResponse.json({
         type: 'file',
-        name: data.name,
-        path: data.path,
-        size: data.size,
+        name: fileData.name,
+        path: fileData.path,
+        size: fileData.size,
         content: {
-          content: data.content,
-          encoding: data.encoding
+          content: fileData.content,
+          encoding: fileData.encoding
         },
-        download_url: data.download_url
+        download_url: fileData.download_url
       })
     }
 

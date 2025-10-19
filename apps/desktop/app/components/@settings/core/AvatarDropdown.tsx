@@ -1,9 +1,14 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { motion } from 'framer-motion';
 import { useStore } from '@nanostores/react';
-import { classNames } from '~/utils/classNames';
+import { clsx } from 'clsx';
 import { profileStore } from '~/lib/stores/profile';
 import type { TabType, Profile } from './types';
+
+// Simple utility function for combining class names
+function cn(...classes: (string | undefined | null | false)[]): string {
+  return clsx(classes);
+}
 
 const BetaLabel = () => (
   <span className="px-1.5 py-0.5 rounded-full bg-purple-500/10 dark:bg-purple-500/20 text-[10px] font-medium text-purple-600 dark:text-purple-400 ml-2">
@@ -44,7 +49,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className={classNames(
+          className={cn(
             'min-w-[240px] z-[250]',
             'bg-white dark:bg-[#141414]',
             'rounded-lg shadow-lg',
@@ -56,7 +61,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
           align="end"
         >
           <div
-            className={classNames(
+            className={cn(
               'px-4 py-3 flex items-center gap-3',
               'border-b border-gray-200/50 dark:border-gray-800/50',
             )}
@@ -66,7 +71,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
                 <img
                   src={profile.avatar}
                   alt={profile?.username || 'Profile'}
-                  className={classNames('w-full h-full', 'object-cover', 'transform-gpu', 'image-rendering-crisp')}
+                  className={cn('w-full h-full', 'object-cover', 'transform-gpu', 'image-rendering-crisp')}
                   loading="eager"
                   decoding="sync"
                 />
@@ -85,7 +90,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
           </div>
 
           <DropdownMenu.Item
-            className={classNames(
+            className={cn(
               'flex items-center gap-2 px-4 py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
               'hover:bg-purple-50 dark:hover:bg-purple-500/10',
@@ -101,7 +106,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
           </DropdownMenu.Item>
 
           <DropdownMenu.Item
-            className={classNames(
+            className={cn(
               'flex items-center gap-2 px-4 py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
               'hover:bg-purple-50 dark:hover:bg-purple-500/10',
@@ -119,7 +124,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
           <div className="my-1 border-t border-gray-200/50 dark:border-gray-800/50" />
 
           <DropdownMenu.Item
-            className={classNames(
+            className={cn(
               'flex items-center gap-2 px-4 py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
               'hover:bg-purple-50 dark:hover:bg-purple-500/10',
@@ -136,7 +141,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
           </DropdownMenu.Item>
 
           <DropdownMenu.Item
-            className={classNames(
+            className={cn(
               'flex items-center gap-2 px-4 py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
               'hover:bg-purple-50 dark:hover:bg-purple-500/10',

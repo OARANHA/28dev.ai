@@ -25,7 +25,11 @@ export async function GET(request: NextRequest) {
     let isAuthenticatedUser = false
     if (userResponse.ok) {
       const user = await userResponse.json()
-      isAuthenticatedUser = user.login === owner
+
+      // Verificar se user é um objeto válido
+      if (typeof user === 'object' && user !== null && (user as any).login) {
+        isAuthenticatedUser = (user as any).login === owner
+      }
     }
 
     // Fetch all repositories by paginating through all pages
@@ -69,6 +73,11 @@ export async function GET(request: NextRequest) {
       }
 
       const repos = await response.json()
+
+      // Verificar se repos é um array válido
+      if (!Array.isArray(repos)) {
+        throw new Error('Invalid response format from GitHub API')
+      }
 
       // If we get fewer repos than the per_page limit, we've reached the end
       if (repos.length === 0) {

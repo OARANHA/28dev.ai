@@ -21,6 +21,11 @@ export async function GET() {
 
     const orgs = await response.json()
 
+    // Verificar se orgs é um array válido
+    if (!Array.isArray(orgs)) {
+      throw new Error('Invalid response format from GitHub API')
+    }
+
     return NextResponse.json(
       orgs.map((org: any) => ({
         login: org.login,

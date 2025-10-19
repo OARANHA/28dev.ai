@@ -72,7 +72,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { path, isDirectory, content = '' } = body
+
+    // Verificar se body é um objeto válido
+    if (typeof body !== 'object' || body === null) {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+    }
+
+    const { path, isDirectory, content = '' } = body as { path: string; isDirectory: boolean; content?: string }
 
     if (!path) {
       return NextResponse.json({ error: 'Path is required' }, { status: 400 })
@@ -125,7 +131,13 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const body = await request.json()
-    const { path } = body
+
+    // Verificar se body é um objeto válido
+    if (typeof body !== 'object' || body === null) {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+    }
+
+    const { path } = body as { path: string }
 
     if (!path) {
       return NextResponse.json({ error: 'Path is required' }, { status: 400 })

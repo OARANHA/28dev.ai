@@ -7,7 +7,7 @@ export function getLLMGuide(): string {
     return fs.readFileSync(llmGuidePath, 'utf-8')
   } catch (error) {
     console.error('Failed to read LLM.txt:', error)
-    return `You are CodinIT.dev, a highly skilled software engineer with extensive knowledge in many programming languages, frameworks, design patterns, and best practices.`
+    return `You are 28dev.dev, a highly skilled software engineer with extensive knowledge in many programming languages, frameworks, design patterns, and best practices.`
   }
 }
 

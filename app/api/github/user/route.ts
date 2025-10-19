@@ -21,10 +21,15 @@ export async function GET() {
 
     const user = await response.json()
 
+    // Verificar se user é um objeto válido
+    if (typeof user !== 'object' || user === null) {
+      throw new Error('Invalid response format from GitHub API')
+    }
+
     return NextResponse.json({
-      login: user.login,
-      name: user.name,
-      avatar_url: user.avatar_url,
+      login: (user as any).login,
+      name: (user as any).name,
+      avatar_url: (user as any).avatar_url,
     })
   } catch (error) {
     console.error('Error fetching GitHub user:', error)

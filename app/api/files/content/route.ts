@@ -51,7 +51,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { path, content } = body
+
+    // Verificar se body é um objeto válido
+    if (typeof body !== 'object' || body === null) {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+    }
+
+    const { path, content } = body as { path: string; content: string }
 
     if (!path || content === undefined) {
       return NextResponse.json({ error: 'Path and content are required' }, { status: 400 })

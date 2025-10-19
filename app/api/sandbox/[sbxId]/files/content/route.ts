@@ -93,7 +93,17 @@ export async function POST(
 ) {
   try {
     const { sbxId } = params
-    const { path: filePath, content } = await req.json()
+    const body = await req.json()
+
+    // Verificar se body é um objeto válido
+    if (typeof body !== 'object' || body === null) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request body' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const { path: filePath, content } = body as { path: string; content: string }
 
     if (!sbxId) {
       return new Response(

@@ -81,6 +81,15 @@ export function getModelClient(model: LLMModel, config: LLMModelConfig) {
         apiKey: apiKey || process.env.XAI_API_KEY,
         baseURL: baseURL || 'https://api.x.ai/v1',
       })(modelNameString),
+    zai: () => {
+      // OpenAI compatible provider com Base URL para coding plan
+      const openai = createOpenAI({
+        apiKey: apiKey || process.env.ZAI_API_KEY,
+        baseURL: baseURL || 'https://api.z.ai/api/coding/paas/v4',
+      });
+      
+      return openai.chat(modelNameString);
+    },
     deepseek: () =>
       createOpenAI({
         apiKey: apiKey || process.env.DEEPSEEK_API_KEY,
@@ -101,6 +110,17 @@ export function getModelClient(model: LLMModel, config: LLMModelConfig) {
 export function getDefaultModelParams(model: LLMModel) {
   // Return default parameters for the model
   // This can be customized per provider/model if needed
+  
+  // Special handling for Z.ai to avoid response_format issues
+  if (model.providerId === 'zai') {
+    return {
+      temperature: 0.7,
+      maxTokens: 4096,
+      // Remover response_format para Z.ai pois não suporta json_schema
+      // Forçar uso de streaming sem formatos especiais
+    }
+  }
+  
   return {
     temperature: 0.7,
     maxTokens: 4096,

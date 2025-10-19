@@ -28,14 +28,19 @@ export async function POST(request: NextRequest) {
     const supabase = createServerClient()
     const body = await request.json()
 
+    // Verificar se body é um objeto válido
+    if (typeof body !== 'object' || body === null) {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+    }
+
     // Get user from Supabase auth
     const { data: { user } } = await supabase.auth.getUser()
 
     const taskData: CreateTaskData = {
-      prompt: body.prompt,
-      repo_url: body.repoUrl,
-      selected_agent: body.selectedAgent || 'claude',
-      selected_model: body.selectedModel,
+      prompt: (body as any).prompt,
+      repo_url: (body as any).repoUrl,
+      selected_agent: (body as any).selectedAgent || 'claude',
+      selected_model: (body as any).selectedModel,
       user_id: user?.id,
     }
 
